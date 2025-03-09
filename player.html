@@ -4,13 +4,13 @@
     <meta charset="UTF-8">
     <title>WXM Ultra Modern Player</title>
     <script src="https://kit.fontawesome.com/e1419bc5ec.js" crossorigin="anonymous"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Roboto+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <style>
         body {
             margin: 0;
             padding: 0;
             overflow: hidden;
-            background: linear-gradient(135deg, rgba(128, 0, 128, 0.9), rgba(0, 0, 255, 0.9)), url('https://placehold.co/1920x1080/purple/blue?text=Background') no-repeat center center fixed;
+            background: radial-gradient(circle at center, #0a0a0a, #1a1a1a);
             font-family: 'Orbitron', sans-serif;
             display: flex;
             justify-content: center;
@@ -18,189 +18,177 @@
             height: 100vh;
             perspective: 1200px;
         }
-        .player-container {
-            width: 420px;
-            height: 420px;
-            background: linear-gradient(145deg, rgba(128, 0, 128, 0.7), rgba(0, 0, 255, 0.7));
-            border-radius: 1.8rem;
-            box-shadow: 0 0 50px rgba(0, 128, 0, 0.6), inset 0 0 25px rgba(255, 255, 255, 0.2);
-            padding: 1.5rem;
+        .bottom-player {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: calc(100% - 2rem);
+            max-width: 1280px;
+            margin: 0 1rem 1rem 1rem;
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.7), rgba(59, 130, 246, 0.1));
+            padding: 0.8rem 1.2rem;
+            z-index: 1000;
             display: flex;
-            flex-direction: column;
             align-items: center;
-            position: relative;
+            gap: 1.2rem;
+            height: 5rem;
+            border: 2px solid rgba(59, 130, 246, 0.4);
+            border-radius: 0.5rem;
+            box-shadow: 0 -5px 25px rgba(59, 130, 246, 0.3), inset 0 0 15px rgba(255, 51, 51, 0.2);
+            backdrop-filter: blur(10px); /* Transparencia negra moderna */
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
             transform-style: preserve-3d;
-            transition: transform 0.5s ease, box-shadow 0.5s ease;
-            animation: floatAndRotate 5s ease-in-out infinite;
-            backdrop-filter: blur(10px); /* Transparencia moderna */
-            border: 2px solid rgba(0, 128, 0, 0.8);
+            animation: float 4s ease-in-out infinite;
         }
-        @keyframes floatAndRotate {
-            0%, 100% { transform: translateY(0) rotateX(10deg) rotateY(10deg); }
-            50% { transform: translateY(-15px) rotateX(-10deg) rotateY(-10deg) scale(1.02); }
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotateX(5deg); }
+            50% { transform: translateY(-8px) rotateX(-5deg) scale(1.02); }
         }
-        .cover-art {
-            width: 160px;
-            height: 160px;
-            border-radius: 50%;
+        .bottom-player:hover {
+            transform: translateY(-5px) scale(1.03);
+            box-shadow: 0 -8px 30px rgba(59, 130, 246, 0.5), inset 0 0 20px rgba(255, 51, 51, 0.3);
+        }
+        .player-logo img {
+            width: 3rem;
+            height: 3rem;
+            border-radius: 0.3rem;
             object-fit: cover;
-            border: 5px solid rgba(0, 128, 0, 0.8);
-            box-shadow: 0 0 30px rgba(0, 128, 0, 0.9), 0 0 60px rgba(128, 0, 128, 0.5);
-            margin: 1rem 0;
-            transition: transform 0.5s ease, box-shadow 0.3s ease;
-            transform: rotate(0deg);
+            border: 2px solid rgba(59, 130, 246, 0.6);
+            box-shadow: 0 0 15px rgba(59, 130, 246, 0.4), 0 0 30px rgba(255, 51, 51, 0.2);
+            transition: transform 0.4s ease, box-shadow 0.3s ease;
         }
-        .cover-art:hover {
-            transform: scale(1.1) rotate(360deg);
-            box-shadow: 0 0 40px rgba(0, 128, 0, 1), 0 0 80px rgba(128, 0, 128, 0.7);
+        .player-logo img:hover {
+            transform: scale(1.1) rotate(10deg);
+            box-shadow: 0 0 20px rgba(59, 130, 246, 0.6), 0 0 40px rgba(255, 51, 51, 0.4);
         }
-        .current-track {
-            display: flex;
-            align-items: center;
-            gap: 0.7rem;
-            padding: 0.7rem;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 0.4rem;
-            width: 90%;
-            margin-bottom: 1rem;
-            border: 2px solid rgba(0, 128, 0, 0.5);
-            backdrop-filter: blur(5px);
-        }
-        .on-air {
-            font-size: 1.1rem;
-            font-weight: 700;
-            color: rgba(255, 0, 0, 0.9); /* Rojo vibrante para contraste */
-            text-transform: uppercase;
-            letter-spacing: 0.07rem;
-            padding: 0.4rem 0.6rem;
-            background: rgba(255, 0, 0, 0.2);
-            border-radius: 0.25rem;
-            animation: blink 1s infinite;
-            box-shadow: 0 0 15px rgba(255, 0, 0, 0.6);
-            text-shadow: 0 0 5px rgba(255, 0, 0, 0.5);
-        }
-        @keyframes blink {
-            0% { opacity: 1; }
-            50% { opacity: 0.6; }
-            100% { opacity: 1; }
-        }
-        .title-wrapper {
+        .player-info {
             flex: 1;
+            min-width: 0;
+            position: relative;
+            padding: 0.4rem 0;
+            backdrop-filter: blur(5px);
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 0.3rem;
+            padding-left: 0.5rem;
+        }
+        .song-title {
+            font: 700 1.1rem 'Roboto', sans-serif;
+            color: rgba(229, 229, 229, 0.95);
+            white-space: nowrap;
             overflow: hidden;
+            text-overflow: ellipsis;
+            line-height: 1.3;
+            padding: 0.3rem 0;
+            text-shadow: 0 0 6px rgba(255, 255, 255, 0.3);
+        }
+        .song-artist {
+            font: 400 0.9rem 'Orbitron', sans-serif;
+            color: rgba(156, 163, 175, 0.9);
             white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            text-shadow: 0 0 4px rgba(156, 163, 175, 0.5);
         }
-        #current-song-title {
-            font-size: 1.2rem;
-            font-weight: 700;
-            color: rgba(255, 255, 255, 0.95);
-            display: inline-block;
-            animation: marquee 12s linear infinite;
-            padding-left: 100%;
-            white-space: nowrap;
-            text-shadow: 0 0 8px rgba(255, 255, 255, 0.7);
+        .progress-bar {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 0.3rem;
+            background: rgba(59, 130, 246, 0.2);
+            border-radius: 2.5rem;
+            overflow: hidden;
+            box-shadow: inset 0 0 10px rgba(59, 130, 246, 0.3);
         }
-        @keyframes marquee {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(-100%); }
+        .progress-fill {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, rgba(255, 51, 51, 0.8), rgba(59, 130, 246, 0.8), rgba(255, 51, 51, 0.8));
+            animation: progressFlow 3s linear infinite;
+            box-shadow: 0 0 15px rgba(255, 51, 51, 0.5);
         }
-        #sonic_listeners {
-            font-size: 1rem;
-            color: rgba(255, 255, 255, 0.7);
-            font-weight: 500;
-            background: rgba(0, 128, 0, 0.2);
-            padding: 0.3rem 0.6rem;
-            border-radius: 0.25rem;
-            box-shadow: 0 0 10px rgba(0, 128, 0, 0.4);
+        @keyframes progressFlow {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
         }
         .player-controls {
             display: flex;
-            gap: 0.6rem;
-            margin: 1rem 0;
+            align-items: center;
+            gap: 0.8rem;
+            padding-right: 0.6rem;
         }
         .control-btn {
-            background: rgba(0, 128, 0, 0.2);
-            color: rgba(255, 255, 255, 0.9);
-            padding: 0.7rem;
+            background: rgba(0, 0, 0, 0.4);
+            color: rgba(229, 229, 229, 0.9);
+            padding: 0.6rem;
             font-size: 1.1rem;
-            border-radius: 50%;
-            width: 2.6rem;
-            height: 2.6rem;
+            border-radius: 0.3rem;
+            width: 2.4rem;
+            height: 2.4rem;
             display: flex;
             align-items: center;
             justify-content: center;
-            border: 2px solid rgba(0, 128, 0, 0.7);
+            border: 2px solid rgba(59, 130, 246, 0.5);
             cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 0 15px rgba(0, 128, 0, 0.5);
+            transition: all 0.4s ease;
+            box-shadow: 0 0 10px rgba(59, 130, 246, 0.3);
             backdrop-filter: blur(5px);
         }
         .control-btn:hover {
-            background: rgba(0, 128, 0, 0.5);
+            background: rgba(59, 130, 246, 0.3);
             color: #ffffff;
-            box-shadow: 0 0 25px rgba(0, 128, 0, 0.9);
-            transform: scale(1.15);
+            transform: scale(1.15) rotate(5deg);
+            box-shadow: 0 0 20px rgba(59, 130, 246, 0.6);
         }
-        .control-btn:active { transform: scale(0.95); }
+        .control-btn:active {
+            transform: scale(0.95) rotate(-5deg);
+        }
         .volume-wrapper {
+            position: relative;
             width: 5rem;
             display: flex;
             align-items: center;
         }
         .mini-volume-control {
             width: 100%;
-            height: 0.5rem;
-            background: rgba(128, 0, 128, 0.3);
+            height: 0.4rem;
+            background: rgba(59, 130, 246, 0.2);
             border-radius: 2.5rem;
             -webkit-appearance: none;
             outline: none;
             cursor: pointer;
-            box-shadow: 0 0 8px rgba(128, 0, 128, 0.6);
+            transition: background 0.4s ease;
+            box-shadow: inset 0 0 8px rgba(59, 130, 246, 0.4);
+        }
+        .mini-volume-control:hover {
+            background: rgba(59, 130, 246, 0.4);
         }
         .mini-volume-control::-webkit-slider-thumb {
             -webkit-appearance: none;
-            width: 1.2rem;
-            height: 1.2rem;
-            background: rgba(255, 0, 0, 0.9);
+            width: 1rem;
+            height: 1rem;
+            background: rgba(255, 51, 51, 0.9);
             border-radius: 50%;
-            box-shadow: 0 0 20px rgba(255, 0, 0, 0.8);
-            transition: transform 0.2s ease;
+            cursor: pointer;
+            box-shadow: 0 0 12px rgba(255, 51, 51, 0.7);
+            transition: transform 0.3s ease;
         }
-        .mini-volume-control:hover::-webkit-slider-thumb { transform: scale(1.3); }
-        .history {
-            width: 90%;
-            max-height: 100px;
-            overflow-y: auto;
-            font-size: 0.8rem;
-            color: rgba(255, 255, 255, 0.6);
-            background: rgba(0, 0, 255, 0.15);
-            padding: 0.7rem;
-            border-radius: 0.7rem;
-            border: 2px solid rgba(0, 128, 0, 0.4);
-            font-family: 'Roboto Mono', monospace;
-            box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.4);
-            backdrop-filter: blur(5px);
+        .mini-volume-control:hover::-webkit-slider-thumb {
+            transform: scale(1.2);
         }
-        .history-item {
-            padding: 0.4rem 0;
-            border-bottom: 1px solid rgba(0, 128, 0, 0.2);
-            transition: color 0.2s ease, transform 0.2s ease;
-        }
-        .history-item:hover {
-            color: rgba(255, 255, 255, 0.9);
-            transform: translateX(5px);
-        }
-        .history-item:last-child { border-bottom: none; }
     </style>
 </head>
 <body>
-    <div class="player-container">
-        <img class="cover-art" id="coverArt" src="https://placehold.co/160" alt="Cover Art"/>
-        <div class="current-track">
-            <span class="on-air">On Air:</span>
-            <div class="title-wrapper">
-                <span id="current-song-title">Cargando...</span>
+    <div class="bottom-player">
+        <div class="player-logo">
+            <img alt="WXM ONE RADIO Logo" id="player-logo-img" src="https://placehold.co/40"/>
+        </div>
+        <div class="player-info">
+            <div class="song-title" id="sonic_title">Cargando...</div>
+            <div class="song-artist" id="sonic_artist">WXM Radio</div>
+            <div class="progress-bar">
+                <div class="progress-fill"></div>
             </div>
-            <span id="sonic_listeners">0 oyentes</span>
         </div>
         <div class="player-controls">
             <button class="control-btn" id="playButton" title="Play/Pause">
@@ -213,16 +201,15 @@
                 <i class="fas fa-volume-up" id="muteIcon"></i>
             </button>
             <div class="volume-wrapper">
-                <input class="mini-volume-control" id="volumeControl" max="1" min="0" step="0.01" type="range" value="0.5"/>
+                <input class="mini-volume-control" id="volumeControl" max="1" min="0" step="0.01" title="Volumen" type="range" value="0.5"/>
             </div>
             <button class="control-btn" id="shareButton" title="Compartir">
                 <i class="fas fa-share-alt"></i>
             </button>
+            <audio id="radioPlayer" preload="auto" autoplay>
+                <source src="https://jm8n.net:8024/stream" type="audio/mpeg"/>
+            </audio>
         </div>
-        <div class="history" id="historyList"></div>
-        <audio id="radioPlayer" preload="auto" autoplay>
-            <source src="https://jm8n.net:8024/stream" type="audio/mpeg"/>
-        </audio>
     </div>
 
     <script>
@@ -236,24 +223,17 @@
             volumeControl: document.getElementById('volumeControl'),
             playIcon: document.getElementById('playIcon'),
             muteIcon: document.getElementById('muteIcon'),
-            songTitle: document.getElementById('current-song-title'),
-            coverArt: document.getElementById('coverArt'),
-            listeners: document.getElementById('sonic_listeners'),
-            historyList: document.getElementById('historyList'),
-            state: {
-                isPlaying: true, // Inicia como reproduciendo
-                isMuted: false, // Forzar desmuteado por defecto
-                volume: localStorage.getItem('volume') || 0.5,
-                retryCount: 0
-            }
+            songTitle: document.getElementById('sonic_title'),
+            songArtist: document.getElementById('sonic_artist'),
+            logoImg: document.getElementById('player-logo-img'),
+            state: { isPlaying: true, isMuted: false, retryCount: 0 } // Forzar autoplay
         };
 
         var MAX_RETRIES = 3;
 
         // Restaurar estado inicial
-        player.audio.volume = player.state.volume;
-        player.audio.muted = player.state.isMuted; // Inicia desmuteado
-        if (player.volumeControl) player.volumeControl.value = player.state.volume;
+        player.audio.volume = 0.5; // Volumen por defecto
+        player.audio.muted = player.state.isMuted;
 
         function updatePlayButton() {
             if (player.playIcon) {
@@ -269,66 +249,23 @@
 
         function playRadio() {
             var timestamp = Date.now();
-            player.audio.src = `https://jm8n.net:8024/stream?nocache=${timestamp}`;
+            player.audio.src = 'https://jm8n.net:8024/stream?nocache=' + timestamp;
             player.audio.load();
             player.audio.play()
-                .then(() => {
+                .then(function() {
                     player.state.isPlaying = true;
-                    localStorage.setItem('isPlaying', 'true');
                     player.state.retryCount = 0;
                     updatePlayButton();
                 })
-                .catch(error => {
+                .catch(function(error) {
                     console.error('Error al reproducir:', error);
                     if (player.state.retryCount < MAX_RETRIES) {
                         player.state.retryCount++;
                         setTimeout(playRadio, 2000);
                     } else {
                         if (player.songTitle) player.songTitle.textContent = 'Error de conexión';
+                        if (player.songArtist) player.songArtist.textContent = 'Intenta de nuevo';
                     }
-                });
-        }
-
-        function updateRadioInfo() {
-            fetch('https://jm8n.net/cp/get_info.php?p=8024')
-                .then(response => response.json())
-                .then(data => {
-                    console.log('API Response:', data); // Depuración
-                    // Actualizar título, cover y oyentes
-                    if (player.songTitle) {
-                        player.songTitle.textContent = data.title || 'Sin título';
-                        player.songTitle.style.animationPlayState = 
-                            player.songTitle.scrollWidth > player.songTitle.parentElement.clientWidth ? 'running' : 'paused';
-                    }
-                    if (player.coverArt) {
-                        player.coverArt.src = data.art || 'https://placehold.co/160';
-                        player.coverArt.onerror = () => { player.coverArt.src = 'https://placehold.co/160'; };
-                    }
-                    if (player.listeners) player.listeners.textContent = `${data.listeners || 0} oyentes`;
-
-                    // Actualizar historial desde data.history
-                    if (player.historyList && data.history) {
-                        player.historyList.innerHTML = '';
-                        var lastTen = data.history
-                            .filter(track => !track.includes('Advert:')) // Filtrar anuncios
-                            .slice(0, 10); // Tomar hasta 10 canciones
-                        if (lastTen.length === 0) {
-                            player.historyList.innerHTML = '<p>No hay canciones recientes.</p>';
-                        } else {
-                            lastTen.forEach(track => {
-                                const item = document.createElement('div');
-                                item.className = 'history-item';
-                                item.textContent = track || 'Canción desconocida';
-                                player.historyList.appendChild(item);
-                            });
-                        }
-                    }
-                })
-                .catch(error => {
-                    console.error('Error al cargar la API:', error);
-                    if (player.songTitle) player.songTitle.textContent = 'Sin datos';
-                    if (player.listeners) player.listeners.textContent = '0 oyentes';
-                    if (player.historyList) player.historyList.innerHTML = '<p>Error al cargar historial.</p>';
                 });
         }
 
@@ -337,7 +274,6 @@
                 if (player.state.isPlaying) {
                     player.audio.pause();
                     player.state.isPlaying = false;
-                    localStorage.setItem('isPlaying', 'false');
                     if (player.songTitle) player.songTitle.textContent = 'Pausado';
                 } else {
                     playRadio();
@@ -351,9 +287,9 @@
                 player.audio.pause();
                 player.audio.currentTime = 0;
                 player.state.isPlaying = false;
-                localStorage.setItem('isPlaying', 'false');
                 updatePlayButton();
                 if (player.songTitle) player.songTitle.textContent = 'Detenido';
+                if (player.songArtist) player.songArtist.textContent = 'WXM Radio';
             });
         }
 
@@ -361,7 +297,6 @@
             player.muteButton.addEventListener('click', function() {
                 player.state.isMuted = !player.state.isMuted;
                 player.audio.muted = player.state.isMuted;
-                localStorage.setItem('isMuted', player.state.isMuted);
                 updateMuteButton();
             });
         }
@@ -369,10 +304,7 @@
         if (player.volumeControl) {
             player.volumeControl.addEventListener('input', function(e) {
                 player.audio.volume = e.target.value;
-                player.state.volume = e.target.value;
-                localStorage.setItem('volume', e.target.value);
                 player.state.isMuted = e.target.value == 0;
-                localStorage.setItem('isMuted', player.state.isMuted);
                 updateMuteButton();
             });
         }
@@ -385,14 +317,28 @@
                     url: 'http://www.wxmradio.com/'
                 };
                 if (navigator.share) {
-                    navigator.share(shareData).catch(err => console.error('Error al compartir:', err));
+                    navigator.share(shareData).catch(function(err) { console.error('Error al compartir:', err); });
                 } else {
                     prompt('Comparte este enlace:', 'http://www.wxmradio.com/');
                 }
             });
         }
 
-        // Asegurar autoplay y estado inicial
+        function updateRadioInfo() {
+            fetch('https://jm8n.net/cp/get_info.php?p=8024')
+                .then(function(response) { return response.json(); })
+                .then(function(data) {
+                    if (player.songTitle) player.songTitle.textContent = data.title || 'Sin título';
+                    if (player.songArtist) player.songArtist.textContent = data.djusername || 'WXM Radio';
+                    if (player.logoImg) player.logoImg.src = data.art || 'https://placehold.co/40';
+                })
+                .catch(function(error) {
+                    console.error('Error al cargar la API:', error);
+                    if (player.songTitle) player.songTitle.textContent = 'Sin datos';
+                });
+        }
+
+        // Asegurar autoplay al cargar
         player.audio.addEventListener('loadedmetadata', () => {
             player.audio.play().catch(() => playRadio());
         });
