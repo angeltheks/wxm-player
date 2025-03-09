@@ -172,140 +172,159 @@
     </div>
 
     <script>
-    (function() {
-        var player = {
-            audio: document.getElementById('radioPlayer'),
-            playButton: document.getElementById('playButton'),
-            stopButton: document.getElementById('stopButton'),
-            muteButton: document.getElementById('muteButton'),
-            shareButton: document.getElementById('shareButton'),
-            volumeControl: document.getElementById('volumeControl'),
-            playIcon: document.getElementById('playIcon'),
-            muteIcon: document.getElementById('muteIcon'),
-            songTitle: document.getElementById('sonic_title'),
-            songArtist: document.getElementById('sonic_artist'),
-            logoImg: document.getElementById('player-logo-img'),
-            state: { isPlaying: localStorage.getItem('isPlaying') === 'true', isMuted: false, retryCount: 0 }
-        };
-
-        var MAX_RETRIES = 3;
-
-        function updatePlayButton() {
-            if (player.playIcon) {
-                player.playIcon.className = player.state.isPlaying ? 'fas fa-pause' : 'fas fa-play';
-            }
+(function() {
+    var player = {
+        audio: document.getElementById('radioPlayer'),
+        playButton: document.getElementById('playButton'),
+        stopButton: document.getElementById('stopButton'),
+        muteButton: document.getElementById('muteButton'),
+        shareButton: document.getElementById('shareButton'),
+        volumeControl: document.getElementById('volumeControl'),
+        playIcon: document.getElementById('playIcon'),
+        muteIcon: document.getElementById('muteIcon'),
+        songTitle: document.getElementById('sonic_title'),
+        songArtist: document.getElementById('sonic_artist'),
+        logoImg: document.getElementById('player-logo-img'),
+        state: {
+            isPlaying: localStorage.getItem('isPlaying') === 'true',
+            isMuted: localStorage.getItem('isMuted') === 'true',
+            volume: localStorage.getItem('volume') || 0.5,
+            retryCount: 0
         }
+    };
 
-        function updateMuteButton() {
-            if (player.muteIcon) {
-                player.muteIcon.className = player.state.isMuted ? 'fas fa-volume-mute' : 'fas fa-volume-up';
-            }
+    var MAX_RETRIES = 3;
+
+    // Restaurar estado inicial
+    player.audio.volume = player.state.volume;
+    player.audio.muted = player.state.isMuted;
+    if (player.volumeControl) player.volumeControl.value = player.state.volume;
+
+    function updatePlayButton() {
+        if (player.playIcon) {
+            player.playIcon.className = player.state.isPlaying ? 'fas fa-pause' : 'fas fa-play';
         }
+    }
 
-        function playRadio() {
-            if (!player.state.isPlaying) {
-                var timestamp = Date.now();
-                player.audio.src = 'https://jm8n.net:8024/stream?nocache=' + timestamp;
-                player.audio.load();
-                player.audio.play()
-                    .then(function() {
-                        player.state.isPlaying = true;
-                        localStorage.setItem('isPlaying', 'true');
-                        player.state.retryCount = 0;
-                        updatePlayButton();
-                    })
-                    .catch(function(error) {
-                        console.error('Error al reproducir:', error);
-                        if (player.state.retryCount < MAX_RETRIES) {
-                            player.state.retryCount++;
-                            setTimeout(playRadio, 2000);
-                        } else {
-                            if (player.songTitle) player.songTitle.textContent = 'Error de conexión';
-                            if (player.songArtist) player.songArtist.textContent = 'Intenta de nuevo';
-                        }
-                    });
-            }
+    function updateMuteButton() {
+        if (player.muteIcon) {
+            player.muteIcon.className = player.state.isMuted ? 'fas fa-volume-mute' : 'fas fa-volume-up';
         }
+    }
 
-        if (player.playButton) {
-            player.playButton.addEventListener('click', function() {
-                if (player.state.isPlaying) {
-                    player.audio.pause();
-                    player.state.isPlaying = false;
-                    localStorage.setItem('isPlaying', 'false');
-                    if (player.songTitle) player.songTitle.textContent = 'Pausado';
-                } else {
-                    playRadio();
-                }
-                updatePlayButton();
-            });
-        }
-
-        if (player.stopButton) {
-            player.stopButton.addEventListener('click', function() {
-                player.audio.pause();
-                player.audio.currentTime = 0;
-                player.state.isPlaying = false;
-                localStorage.setItem('isPlaying', 'false');
-                updatePlayButton();
-                if (player.songTitle) player.songTitle.textContent = 'Detenido';
-                if (player.songArtist) player.songArtist.textContent = 'WXM Radio';
-            });
-        }
-
-        if (player.muteButton) {
-            player.muteButton.addEventListener('click', function() {
-                player.state.isMuted = !player.state.isMuted;
-                player.audio.muted = player.state.isMuted;
-                updateMuteButton();
-            });
-        }
-
-        if (player.volumeControl) {
-            player.volumeControl.addEventListener('input', function(e) {
-                player.audio.volume = e.target.value;
-                player.state.isMuted = e.target.value == 0;
-                updateMuteButton();
-            });
-        }
-
-        if (player.shareButton) {
-            player.shareButton.addEventListener('click', function() {
-                var shareData = {
-                    title: 'WXM ONE RADIO',
-                    text: '¡Escucha WXM ONE RADIO en vivo! La mejor música desde República Dominicana.',
-                    url: 'http://www.wxmradio.com/'
-                };
-                if (navigator.share) {
-                    navigator.share(shareData).catch(function(err) { console.error('Error al compartir:', err); });
-                } else {
-                    prompt('Comparte este enlace:', 'http://www.wxmradio.com/');
-                }
-            });
-        }
-
-        function updateRadioInfo() {
-            fetch('https://jm8n.net/cp/get_info.php?p=8024')
-                .then(function(response) { return response.json(); })
-                .then(function(data) {
-                    if (player.songTitle) player.songTitle.textContent = data.title || 'Sin título';
-                    if (player.songArtist) player.songArtist.textContent = data.djusername || 'WXM Radio';
-                    if (player.logoImg) player.logoImg.src = data.art || 'https://placehold.co/40';
+    function playRadio() {
+        if (!player.state.isPlaying) {
+            var timestamp = Date.now();
+            player.audio.src = 'https://jm8n.net:8024/stream?nocache=' + timestamp;
+            player.audio.load();
+            player.audio.play()
+                .then(function() {
+                    player.state.isPlaying = true;
+                    localStorage.setItem('isPlaying', 'true');
+                    player.state.retryCount = 0;
+                    updatePlayButton();
                 })
                 .catch(function(error) {
-                    console.error('Error al cargar la API:', error);
-                    if (player.songTitle) player.songTitle.textContent = 'Sin datos';
+                    console.error('Error al reproducir:', error);
+                    if (player.state.retryCount < MAX_RETRIES) {
+                        player.state.retryCount++;
+                        setTimeout(playRadio, 2000);
+                    } else {
+                        if (player.songTitle) player.songTitle.textContent = 'Error de conexión';
+                        if (player.songArtist) player.songArtist.textContent = 'Intenta de nuevo';
+                    }
                 });
         }
+    }
 
-        if (!player.state.isPlaying) {
-            playRadio();
-        } else {
+    if (player.playButton) {
+        player.playButton.addEventListener('click', function() {
+            if (player.state.isPlaying) {
+                player.audio.pause();
+                player.state.isPlaying = false;
+                localStorage.setItem('isPlaying', 'false');
+                if (player.songTitle) player.songTitle.textContent = 'Pausado';
+            } else {
+                playRadio();
+            }
             updatePlayButton();
-        }
-        updateRadioInfo();
-        setInterval(updateRadioInfo, 10000);
-    })();
-    </script>
-</body>
-</html>
+        });
+    }
+
+    if (player.stopButton) {
+        player.stopButton.addEventListener('click', function() {
+            player.audio.pause();
+            player.audio.currentTime = 0;
+            player.state.isPlaying = false;
+            localStorage.setItem('isPlaying', 'false');
+            updatePlayButton();
+            if (player.songTitle) player.songTitle.textContent = 'Detenido';
+            if (player.songArtist) player.songArtist.textContent = 'WXM Radio';
+        });
+    }
+
+    if (player.muteButton) {
+        player.muteButton.addEventListener('click', function() {
+            player.state.isMuted = !player.state.isMuted;
+            player.audio.muted = player.state.isMuted;
+            localStorage.setItem('isMuted', player.state.isMuted);
+            updateMuteButton();
+        });
+    }
+
+    if (player.volumeControl) {
+        player.volumeControl.addEventListener('input', function(e) {
+            player.audio.volume = e.target.value;
+            player.state.volume = e.target.value;
+            localStorage.setItem('volume', e.target.value);
+            player.state.isMuted = e.target.value == 0;
+            localStorage.setItem('isMuted', player.state.isMuted);
+            updateMuteButton();
+        });
+    }
+
+    if (player.shareButton) {
+        player.shareButton.addEventListener('click', function() {
+            var shareData = {
+                title: 'WXM ONE RADIO',
+                text: '¡Escucha WXM ONE RADIO en vivo! La mejor música desde República Dominicana.',
+                url: 'http://www.wxmradio.com/'
+            };
+            if (navigator.share) {
+                navigator.share(shareData).catch(function(err) { console.error('Error al compartir:', err); });
+            } else {
+                prompt('Comparte este enlace:', 'http://www.wxmradio.com/');
+            }
+        });
+    }
+
+    function updateRadioInfo() {
+        fetch('https://jm8n.net/cp/get_info.php?p=8024')
+            .then(function(response) { return response.json(); })
+            .then(function(data) {
+                if (player.songTitle) player.songTitle.textContent = data.title || 'Sin título';
+                if (player.songArtist) player.songArtist.textContent = data.djusername || 'WXM Radio';
+                if (player.logoImg) player.logoImg.src = data.art || 'https://placehold.co/40';
+            })
+            .catch(function(error) {
+                console.error('Error al cargar la API:', error);
+                if (player.songTitle) player.songTitle.textContent = 'Sin datos';
+            });
+    }
+
+    // Iniciar solo si no está reproduciendo
+    if (!player.state.isPlaying) {
+        playRadio();
+    } else {
+        // Restaurar estado si ya estaba reproduciendo
+        player.audio.src = 'https://jm8n.net:8024/stream';
+        player.audio.play().catch(function() {
+            playRadio(); // Reintentar si falla
+        });
+        updatePlayButton();
+    }
+    updateMuteButton();
+    updateRadioInfo();
+    setInterval(updateRadioInfo, 10000);
+})();
+</script>
