@@ -7,38 +7,55 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        .recent-songs-container {
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #1a1a1e;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 1rem;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        .radio-player {
             background: #0f0f12;
-            border-radius: 0.3rem;
-            padding: 1.5rem;
-            margin: 2rem auto;
+            border-radius: clamp(0.3rem, 2vw, 0.5rem);
+            padding: clamp(1rem, 3vw, 1.5rem);
+            width: 100%;
             max-width: 450px;
             color: #e5e5e5;
             border: 1px solid rgba(59, 130, 246, 0.2);
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6);
-            overflow: hidden;
-            font-family: 'Roboto', Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            gap: clamp(0.75rem, 2vw, 1.25rem);
         }
 
+        /* Sección "On Air" */
         .current-track {
             display: flex;
+            flex-wrap: wrap;
             align-items: center;
-            gap: 0.75rem;
-            margin-bottom: 1.25rem;
-            padding: 0.5rem;
+            gap: clamp(0.5rem, 1.5vw, 0.75rem);
+            padding: clamp(0.3rem, 1vw, 0.5rem);
             background: rgba(255, 255, 255, 0.03);
-            border-radius: 0.2rem;
+            border-radius: clamp(0.15rem, 0.5vw, 0.2rem);
         }
 
         .on-air {
-            font-size: 1rem;
+            font-size: clamp(0.8rem, 2.5vw, 1rem);
             font-weight: 700;
             color: #ff3333;
             text-transform: uppercase;
-            letter-spacing: 0.05rem;
-            padding: 0.25rem 0.5rem;
+            padding: clamp(0.2rem, 0.8vw, 0.25rem) clamp(0.3rem, 1vw, 0.5rem);
             background: rgba(255, 51, 51, 0.1);
-            border-radius: 0.15rem;
+            border-radius: clamp(0.1rem, 0.4vw, 0.15rem);
             animation: blink 1s infinite;
         }
 
@@ -50,18 +67,18 @@
 
         .title-wrapper {
             flex: 1;
+            min-width: 0;
             overflow: hidden;
             white-space: nowrap;
         }
 
         #current-song-title {
-            font-size: 1.2rem;
+            font-size: clamp(1rem, 3vw, 1.2rem);
             font-weight: 600;
             color: #ffffff;
             display: inline-block;
             animation: marquee 15s linear infinite;
             padding-left: 100%;
-            white-space: nowrap;
         }
 
         @keyframes marquee {
@@ -70,26 +87,25 @@
         }
 
         #sonic_listeners {
-            font-size: 0.9rem;
+            font-size: clamp(0.7rem, 2vw, 0.9rem);
             color: #9ca3af;
-            font-weight: 500;
         }
 
-        /* Estilos del reproductor */
+        /* Sección del reproductor */
         .player-section {
             display: flex;
+            flex-wrap: wrap;
             align-items: center;
-            gap: 0.75rem;
-            padding: 1rem;
+            gap: clamp(0.5rem, 1.5vw, 0.75rem);
+            padding: clamp(0.5rem, 1.5vw, 1rem);
             background: rgba(59, 130, 246, 0.05);
-            border-radius: 0.2rem;
-            margin-bottom: 1.25rem;
+            border-radius: clamp(0.15rem, 0.5vw, 0.2rem);
         }
 
         .player-logo img {
-            width: 2.5rem;
-            height: 2.5rem;
-            border-radius: 0.2rem;
+            width: clamp(2rem, 6vw, 2.5rem);
+            height: clamp(2rem, 6vw, 2.5rem);
+            border-radius: clamp(0.15rem, 0.5vw, 0.2rem);
             border: 1px solid rgba(59, 130, 246, 0.3);
             object-fit: cover;
         }
@@ -100,7 +116,7 @@
         }
 
         .song-title {
-            font-size: 1rem;
+            font-size: clamp(0.9rem, 2.5vw, 1rem);
             font-weight: 600;
             color: #e5e5e5;
             white-space: nowrap;
@@ -109,26 +125,27 @@
         }
 
         .song-artist {
-            font-size: 0.85rem;
+            font-size: clamp(0.7rem, 2vw, 0.85rem);
             color: #9ca3af;
         }
 
         .player-controls {
             display: flex;
+            flex-wrap: wrap;
             align-items: center;
-            gap: 0.5rem;
+            gap: clamp(0.3rem, 1vw, 0.5rem);
         }
 
         .control-btn {
             background: rgba(59, 130, 246, 0.1);
             color: #e5e5e5;
-            padding: 0.5rem;
-            border-radius: 0.2rem;
+            padding: clamp(0.3rem, 1vw, 0.5rem);
+            border-radius: clamp(0.15rem, 0.5vw, 0.2rem);
             border: 1px solid rgba(59, 130, 246, 0.4);
             cursor: pointer;
             transition: all 0.3s ease;
-            width: 2rem;
-            height: 2rem;
+            width: clamp(1.8rem, 5vw, 2rem);
+            height: clamp(1.8rem, 5vw, 2rem);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -140,12 +157,12 @@
         }
 
         .volume-wrapper {
-            width: 4rem;
+            width: clamp(3rem, 10vw, 4rem);
         }
 
         .mini-volume-control {
             width: 100%;
-            height: 0.3rem;
+            height: clamp(0.2rem, 0.8vw, 0.3rem);
             background: rgba(59, 130, 246, 0.15);
             border-radius: 2rem;
             -webkit-appearance: none;
@@ -154,30 +171,34 @@
 
         .mini-volume-control::-webkit-slider-thumb {
             -webkit-appearance: none;
-            width: 0.8rem;
-            height: 0.8rem;
+            width: clamp(0.6rem, 2vw, 0.8rem);
+            height: clamp(0.6rem, 2vw, 0.8rem);
             background: #ff3333;
             border-radius: 50%;
         }
 
-        /* Estilos de "Recently Played" */
+        /* Sección "Recently Played" */
         .recent-songs-title {
-            font-size: 1.3rem;
+            font-size: clamp(1.1rem, 3vw, 1.3rem);
             font-weight: 600;
             color: #ffffff;
-            margin-bottom: 1rem;
-            text-align: left;
+            margin-bottom: clamp(0.5rem, 1.5vw, 1rem);
             border-bottom: 1px solid rgba(59, 130, 246, 0.2);
-            padding-bottom: 0.25rem;
+            padding-bottom: clamp(0.15rem, 0.5vw, 0.25rem);
+        }
+
+        #recent-songs-list {
+            max-height: 20vh;
+            overflow-y: auto;
         }
 
         .song-card {
             display: flex;
             align-items: center;
-            gap: 0.75rem;
-            padding: 0.75rem 0;
+            gap: clamp(0.5rem, 1.5vw, 0.75rem);
+            padding: clamp(0.5rem, 1.5vw, 0.75rem) 0;
             border-bottom: 1px solid rgba(59, 130, 246, 0.1);
-            transition: background 0.2s ease, transform 0.2s ease;
+            transition: background 0.2s ease;
         }
 
         .song-card:last-child {
@@ -186,13 +207,12 @@
 
         .song-card:hover {
             background: rgba(59, 130, 246, 0.05);
-            transform: translateX(0.3rem);
         }
 
         .song-card-cover {
-            width: 2.5rem;
-            height: 2.5rem;
-            border-radius: 0.2rem;
+            width: clamp(2rem, 6vw, 2.5rem);
+            height: clamp(2rem, 6vw, 2.5rem);
+            border-radius: clamp(0.15rem, 0.5vw, 0.2rem);
             object-fit: cover;
             border: 1px solid rgba(59, 130, 246, 0.3);
             background: #27272a;
@@ -200,21 +220,45 @@
 
         .song-card-content {
             flex: 1;
+            min-width: 0;
             overflow: hidden;
         }
 
         .song-card-title {
-            font-size: 0.95rem;
+            font-size: clamp(0.8rem, 2.2vw, 0.95rem);
             color: #e5e5e5;
             font-weight: 500;
             text-overflow: ellipsis;
             overflow: hidden;
             white-space: nowrap;
         }
+
+        /* Media Queries para ajustes finos */
+        @media (max-width: 400px) {
+            .current-track, .player-section {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .player-controls {
+                justify-content: center;
+                width: 100%;
+            }
+
+            #sonic_listeners {
+                margin-left: clamp(0.5rem, 1.5vw, 0.75rem);
+            }
+        }
+
+        @media (min-width: 600px) {
+            .radio-player {
+                max-width: 500px;
+            }
+        }
     </style>
 </head>
 <body>
-    <div class="recent-songs-container">
+    <div class="radio-player">
         <!-- Sección "On Air" -->
         <div class="current-track">
             <span class="on-air">On Air:</span>
@@ -250,9 +294,7 @@
                     <i class="fas fa-share-alt"></i>
                 </button>
             </div>
-            <audio id="radioPlayer" preload="auto">
-                <source src="https://jm8n.net:8024/stream" type="audio/mpeg">
-            </audio>
+            <audio id="radioPlayer" preload="none"></audio>
         </div>
 
         <!-- Sección "Recently Played" -->
@@ -261,7 +303,7 @@
     </div>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', () => {
             const player = {
                 audio: document.getElementById('radioPlayer'),
                 playButton: document.getElementById('playButton'),
@@ -284,91 +326,78 @@
             const API_URL = 'https://jm8n.net/cp/get_info.php?p=8024';
             const STREAM_URL = 'https://jm8n.net:8024/stream';
 
-            function updatePlayButton() {
+            const updatePlayButton = () => {
                 player.playIcon.className = player.state.isPlaying ? 'fas fa-pause' : 'fas fa-play';
-            }
+            };
 
-            function updateMuteButton() {
+            const updateMuteButton = () => {
                 player.muteIcon.className = player.state.isMuted ? 'fas fa-volume-mute' : 'fas fa-volume-up';
-            }
+            };
 
-            function playRadio() {
+            const playRadio = () => {
                 const timestamp = Date.now();
                 player.audio.src = `${STREAM_URL}?nocache=${timestamp}`;
-                player.audio.load();
-                player.audio.play()
-                    .then(() => {
-                        player.state.isPlaying = true;
-                        player.state.retryCount = 0;
-                        updatePlayButton();
-                    })
-                    .catch(error => {
-                        console.error('Error al reproducir:', error);
-                        if (player.state.retryCount < MAX_RETRIES) {
-                            player.state.retryCount++;
-                            setTimeout(playRadio, 2000);
-                        } else {
-                            player.songTitle.textContent = 'Error de conexión';
-                            player.songArtist.textContent = 'Intenta de nuevo';
-                        }
-                    });
-            }
+                player.audio.play().then(() => {
+                    player.state.isPlaying = true;
+                    player.state.retryCount = 0;
+                    updatePlayButton();
+                }).catch(error => {
+                    console.error('Error al reproducir:', error);
+                    if (player.state.retryCount < MAX_RETRIES) {
+                        player.state.retryCount++;
+                        setTimeout(playRadio, 2000);
+                    } else {
+                        player.songTitle.textContent = 'Error de conexión';
+                        player.songArtist.textContent = 'Intenta de nuevo';
+                    }
+                });
+            };
 
-            function updateRadioInfo() {
-                fetch(API_URL)
-                    .then(response => response.json())
-                    .then(data => {
-                        console.log('Respuesta de la API:', data); // Depuración
+            const updateRadioInfo = async () => {
+                try {
+                    const response = await fetch(API_URL);
+                    const data = await response.json();
 
-                        // Actualizar "On Air"
-                        if (player.currentSongTitle) {
-                            player.currentSongTitle.textContent = data.title || 'Canción desconocida';
-                            player.currentSongTitle.style.animationPlayState = 
-                                player.currentSongTitle.scrollWidth > player.currentSongTitle.parentElement.clientWidth ? 'running' : 'paused';
-                        }
-                        if (player.sonicListeners) {
-                            player.sonicListeners.textContent = `${data.listeners || '0'} oyentes`;
-                        }
+                    // Actualizar "On Air"
+                    player.currentSongTitle.textContent = data.title || 'Canción desconocida';
+                    player.currentSongTitle.style.animationPlayState = 
+                        player.currentSongTitle.scrollWidth > player.currentSongTitle.parentElement.clientWidth ? 'running' : 'paused';
+                    player.sonicListeners.textContent = `${data.listeners || '0'} oyentes`;
 
-                        // Actualizar reproductor
-                        if (player.songTitle) player.songTitle.textContent = data.title || 'Sin título';
-                        if (player.songArtist) player.songArtist.textContent = data.djusername || 'WXM Radio';
-                        if (player.logoImg) player.logoImg.src = data.art || 'https://placehold.co/40';
+                    // Actualizar reproductor
+                    player.songTitle.textContent = data.title || 'Sin título';
+                    player.songArtist.textContent = data.djusername || 'WXM Radio';
+                    player.logoImg.src = data.art || 'https://placehold.co/40';
 
-                        // Actualizar "Recently Played"
-                        if (player.recentSongsList) {
-                            player.recentSongsList.innerHTML = '';
-                            const lastFive = data.history ? data.history.slice(0, 5) : [];
-                            if (lastFive.length === 0) {
-                                player.recentSongsList.innerHTML = '<p>No hay canciones recientes.</p>';
-                            } else {
-                                lastFive.forEach(track => {
-                                    const songCard = document.createElement('div');
-                                    songCard.className = 'song-card';
-                                    const coverSrc = data.art || 'https://via.placeholder.com/40/27272a/ffffff?text=';
-                                    songCard.innerHTML = `
-                                        <img class="song-card-cover" src="${coverSrc}" alt="Cover" onerror="this.src='https://via.placeholder.com/40/27272a/ffffff?text=';">
-                                        <div class="song-card-content">
-                                            <div class="song-card-title">${track || 'Canción desconocida'}</div>
-                                        </div>
-                                    `;
-                                    player.recentSongsList.appendChild(songCard);
-                                });
-                            }
-                        }
-                    })
-                    .catch(error => {
-                        console.error('Error al cargar la información de la radio:', error);
-                        if (player.currentSongTitle) player.currentSongTitle.textContent = 'Error';
-                        if (player.sonicListeners) player.sonicListeners.textContent = 'Error';
-                        if (player.songTitle) player.songTitle.textContent = 'Sin datos';
-                        if (player.recentSongsList) {
-                            player.recentSongsList.innerHTML = '<p>Error al cargar canciones.</p>';
-                        }
-                    });
-            }
+                    // Actualizar "Recently Played"
+                    player.recentSongsList.innerHTML = '';
+                    const lastFive = data.history?.slice(0, 5) || [];
+                    if (!lastFive.length) {
+                        player.recentSongsList.innerHTML = '<p>No hay canciones recientes.</p>';
+                    } else {
+                        lastFive.forEach(track => {
+                            const songCard = document.createElement('div');
+                            songCard.className = 'song-card';
+                            songCard.innerHTML = `
+                                <img class="song-card-cover" src="${data.art || 'https://via.placeholder.com/40/27272a/ffffff?text='}" 
+                                     alt="Cover" onerror="this.src='https://via.placeholder.com/40/27272a/ffffff?text=';">
+                                <div class="song-card-content">
+                                    <div class="song-card-title">${track || 'Canción desconocida'}</div>
+                                </div>
+                            `;
+                            player.recentSongsList.appendChild(songCard);
+                        });
+                    }
+                } catch (error) {
+                    console.error('Error al cargar la información:', error);
+                    player.currentSongTitle.textContent = 'Error';
+                    player.sonicListeners.textContent = 'Error';
+                    player.songTitle.textContent = 'Sin datos';
+                    player.recentSongsList.innerHTML = '<p>Error al cargar canciones.</p>';
+                }
+            };
 
-            // Event Listeners para el reproductor
+            // Event Listeners
             player.playButton.addEventListener('click', () => {
                 if (player.state.isPlaying) {
                     player.audio.pause();
@@ -395,7 +424,7 @@
                 updateMuteButton();
             });
 
-            player.volumeControl.addEventListener('input', (e) => {
+            player.volumeControl.addEventListener('input', e => {
                 player.audio.volume = e.target.value;
                 player.state.isMuted = e.target.value == 0;
                 updateMuteButton();
@@ -407,11 +436,8 @@
                     text: '¡Escucha WXM ONE RADIO en vivo! La mejor música desde República Dominicana.',
                     url: 'http://www.wxmradio.com/'
                 };
-                if (navigator.share) {
-                    navigator.share(shareData).catch(err => console.error('Error al compartir:', err));
-                } else {
-                    prompt('Comparte este enlace:', 'http://www.wxmradio.com/');
-                }
+                navigator.share ? navigator.share(shareData).catch(err => console.error('Error al compartir:', err)) 
+                                : prompt('Comparte este enlace:', 'http://www.wxmradio.com/');
             });
 
             // Inicialización
