@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>WXM ONE RADIO</title>
+    <title>WXM Ultra Modern Player</title>
     <link rel="icon" href="https://placehold.co/32x32" type="image/x-icon">
     <script src="https://kit.fontawesome.com/e1419bc5ec.js" crossorigin="anonymous"></script>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
@@ -24,18 +24,18 @@
             bottom: 1rem;
             left: 50%;
             transform: translateX(-50%);
-            width: 350px; /* Aumentado de 300px a 350px */
-            height: 350px; /* Aumentado de 300px a 350px */
-            background: linear-gradient(135deg, #0f0f12 0%, rgba(59, 130, 246, 0.1) 100%);
+            width: 350px;
+            height: 350px;
+            background: linear-gradient(135deg, rgba(15, 15, 18, 0.7), rgba(59, 130, 246, 0.1));
             padding: 1rem;
             z-index: 1000;
             display: flex;
             flex-direction: column;
             align-items: center;
             gap: 0.5rem;
-            border: 1px solid rgba(59, 130, 246, 0.3);
+            border: 1px solid rgba(59, 130, 246, 0.2);
             border-radius: 0.5rem;
-            box-shadow: 0 0 20px rgba(59, 130, 246, 0.2), inset 0 0 10px rgba(255, 51, 51, 0.1);
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.6);
             backdrop-filter: blur(8px);
             transition: transform 0.3s ease, box-shadow 0.3s ease;
             animation: float 4s ease-in-out infinite;
@@ -52,7 +52,7 @@
             margin: 0.5rem 0;
         }
         .player-logo img {
-            width: 120px; /* Aumentado ligeramente para coincidir con el tamaño del reproductor */
+            width: 120px;
             height: 120px;
             border-radius: 0.3rem;
             object-fit: cover;
@@ -67,10 +67,10 @@
         .current-track {
             display: flex;
             align-items: center;
-            gap: 0.5rem;
+            gap: 0.75rem;
             padding: 0.5rem;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 0.3rem;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 0.2rem;
             width: 90%;
             border: 1px solid rgba(59, 130, 246, 0.4);
         }
@@ -80,15 +80,15 @@
             color: #ff3333;
             text-transform: uppercase;
             letter-spacing: 0.05rem;
-            padding: 0.2rem 0.4rem;
-            background: rgba(255, 51, 51, 0.15);
-            border-radius: 0.2rem;
+            padding: 0.25rem 0.5rem;
+            background: rgba(255, 51, 51, 0.1);
+            border-radius: 0.15rem;
             animation: blink 1s infinite;
             box-shadow: 0 0 10px rgba(255, 51, 51, 0.5);
         }
         @keyframes blink {
             0% { opacity: 1; }
-            50% { opacity: 0.5; }
+            50% { opacity: 0.4; }
             100% { opacity: 1; }
         }
         .title-wrapper {
@@ -97,10 +97,11 @@
             white-space: nowrap;
         }
         .song-title {
-            font: 700 1rem 'Roboto', sans-serif;
-            color: #e5e5e5;
+            font-size: 1rem;
+            font-weight: 600;
+            color: #ffffff;
             display: inline-block;
-            animation: marquee 10s linear infinite;
+            animation: marquee 15s linear infinite;
             padding-left: 100%;
             white-space: nowrap;
             text-shadow: 0 0 5px rgba(255, 255, 255, 0.3);
@@ -108,6 +109,11 @@
         @keyframes marquee {
             0% { transform: translateX(0); }
             100% { transform: translateX(-100%); }
+        }
+        #sonic_listeners {
+            font-size: 0.9rem;
+            color: #9ca3af;
+            font-weight: 500;
         }
         .song-artist {
             font: 400 0.9rem 'Orbitron', sans-serif;
@@ -118,7 +124,7 @@
             text-overflow: ellipsis;
             text-shadow: 0 0 3px rgba(156, 163, 175, 0.5);
             width: 90%;
-            margin-bottom: 0.5rem; /* Espacio para separarlo de los controles */
+            margin-bottom: 0.5rem;
         }
         .player-controls {
             display: flex;
@@ -183,11 +189,21 @@
         .mini-volume-control:hover::-webkit-slider-thumb {
             transform: scale(1.15);
         }
+        .recent-songs-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #ffffff;
+            margin-bottom: 0.5rem;
+            text-align: left;
+            border-bottom: 1px solid rgba(59, 130, 246, 0.2);
+            padding-bottom: 0.25rem;
+            width: 90%;
+        }
         .history {
             width: 90%;
-            max-height: 80px; /* Aumentado de 60px a 80px para más espacio */
+            max-height: 80px;
             overflow-y: auto;
-            font-size: 0.8rem; /* Aumentado de 0.7rem para mayor legibilidad */
+            font-size: 0.8rem;
             color: #b0b0b0;
             background: rgba(255, 255, 255, 0.06);
             padding: 0.5rem;
@@ -196,16 +212,40 @@
             font-family: 'Roboto', sans-serif;
             box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.3);
         }
-        .history-item {
-            padding: 0.3rem 0; /* Más espacio entre elementos */
-            border-bottom: 1px solid rgba(59, 130, 246, 0.15);
-            transition: color 0.2s ease;
+        .song-card {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid rgba(59, 130, 246, 0.1);
+            transition: background 0.2s ease, transform 0.2s ease;
         }
-        .history-item:hover {
-            color: #e5e5e5;
-        }
-        .history-item:last-child {
+        .song-card:last-child {
             border-bottom: none;
+        }
+        .song-card:hover {
+            background: rgba(59, 130, 246, 0.05);
+            transform: translateX(0.3rem);
+        }
+        .song-card-cover {
+            width: 2rem;
+            height: 2rem;
+            border-radius: 0.2rem;
+            object-fit: cover;
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            background: #27272a;
+        }
+        .song-card-content {
+            flex: 1;
+            overflow: hidden;
+        }
+        .song-card-title {
+            font-size: 0.85rem;
+            color: #e5e5e5;
+            font-weight: 500;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            white-space: nowrap;
         }
     </style>
 </head>
@@ -219,6 +259,7 @@
             <div class="title-wrapper">
                 <div class="song-title" id="sonic_title">Cargando...</div>
             </div>
+            <span id="sonic_listeners">0 oyentes</span>
         </div>
         <div class="song-artist" id="sonic_artist">WXM Radio</div>
         <div class="player-controls">
@@ -241,7 +282,8 @@
                 <source src="https://jm8n.net:8024/stream" type="audio/mpeg"/>
             </audio>
         </div>
-        <div class="history" id="historyList"></div>
+        <h2 class="recent-songs-title">Recently Played</h2>
+        <div class="history" id="historyList"><p>Cargando canciones recientes...</p></div>
     </div>
 
     <script>
@@ -257,8 +299,9 @@
             muteIcon: document.getElementById('muteIcon'),
             songTitle: document.getElementById('sonic_title'),
             songArtist: document.getElementById('sonic_artist'),
-            logoImg: document.getElementById('player-logo-img'),
             historyList: document.getElementById('historyList'),
+            sonicListeners: document.getElementById('sonic_listeners'),
+            logoImg: document.getElementById('player-logo-img'),
             state: { isPlaying: false, isMuted: false, retryCount: 0 }
         };
 
@@ -366,23 +409,32 @@
                             player.songTitle.scrollWidth > player.songTitle.parentElement.clientWidth ? 'running' : 'paused';
                     }
                     if (player.songArtist) player.songArtist.textContent = data.djusername || 'WXM Radio';
+                    if (player.sonicListeners) {
+                        player.sonicListeners.textContent = `${data.listeners || '0'} oyentes`;
+                    }
                     if (player.logoImg) {
                         player.logoImg.src = data.art || 'https://placehold.co/120';
                         player.logoImg.onerror = () => { player.logoImg.src = 'https://placehold.co/120'; };
                     }
                     if (player.historyList && data.history) {
                         player.historyList.innerHTML = '';
-                        var lastTen = data.history
+                        var lastFive = data.history
                             .filter(track => !track.includes('Advert:'))
                             .slice(0, 5);
-                        if (lastTen.length === 0) {
+                        if (lastFive.length === 0) {
                             player.historyList.innerHTML = '<p>No hay canciones recientes.</p>';
                         } else {
-                            lastTen.forEach(track => {
-                                const item = document.createElement('div');
-                                item.className = 'history-item';
-                                item.textContent = track || 'Canción desconocida';
-                                player.historyList.appendChild(item);
+                            lastFive.forEach(function(track) {
+                                var songCard = document.createElement('div');
+                                songCard.className = 'song-card';
+                                var coverSrc = data.art || 'https://via.placeholder.com/40/27272a/ffffff?text=';
+                                songCard.innerHTML = `
+                                    <img class="song-card-cover" src="${coverSrc}" alt="Cover" onerror="this.src='https://via.placeholder.com/40/27272a/ffffff?text=';">
+                                    <div class="song-card-content">
+                                        <div class="song-card-title">${track || 'Canción desconocida'}</div>
+                                    </div>
+                                `;
+                                player.historyList.appendChild(songCard);
                             });
                         }
                     }
@@ -390,6 +442,7 @@
                 .catch(function(error) {
                     console.error('Error al cargar la API:', error);
                     if (player.songTitle) player.songTitle.textContent = 'Sin datos';
+                    if (player.sonicListeners) player.sonicListeners.textContent = 'Error';
                     if (player.historyList) player.historyList.innerHTML = '<p>Error al cargar historial.</p>';
                 });
         }
