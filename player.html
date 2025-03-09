@@ -26,16 +26,16 @@
             transform: translateX(-50%);
             width: 350px;
             height: 350px;
-            background: linear-gradient(135deg, rgba(15, 15, 18, 0.7), rgba(59, 130, 246, 0.1));
+            background: rgba(15, 15, 18, 0.7); /* Cambiado a fondo negro puro con transparencia */
             padding: 1rem;
             z-index: 1000;
             display: flex;
             flex-direction: column;
             align-items: center;
             gap: 0.5rem;
-            border: 1px solid rgba(59, 130, 246, 0.2);
+            border: 1px solid rgba(59, 130, 246, 0.2); /* Color de borde del código original */
             border-radius: 0.5rem;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.6);
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.6); /* Sombra del código original */
             backdrop-filter: blur(8px);
             transition: transform 0.3s ease, box-shadow 0.3s ease;
             animation: float 4s ease-in-out infinite;
@@ -56,32 +56,32 @@
             height: 120px;
             border-radius: 0.3rem;
             object-fit: cover;
-            border: 2px solid rgba(59, 130, 246, 0.5);
-            box-shadow: 0 0 15px rgba(59, 130, 246, 0.3), 0 0 30px rgba(255, 51, 51, 0.2);
+            border: 1px solid rgba(59, 130, 246, 0.3); /* Borde del código original */
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.3); /* Ajustado para consistencia */
             transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
         .player-logo img:hover {
             transform: scale(1.1);
-            box-shadow: 0 0 20px rgba(59, 130, 246, 0.5), 0 0 40px rgba(255, 51, 51, 0.3);
+            box-shadow: 0 0 20px rgba(59, 130, 246, 0.5);
         }
         .current-track {
             display: flex;
             align-items: center;
             gap: 0.75rem;
             padding: 0.5rem;
-            background: rgba(255, 255, 255, 0.03);
+            background: rgba(255, 255, 255, 0.03); /* Fondo del código original */
             border-radius: 0.2rem;
             width: 90%;
-            border: 1px solid rgba(59, 130, 246, 0.4);
+            border: 1px solid rgba(59, 130, 246, 0.4); /* Borde del código original */
         }
         .on-air {
             font-size: 0.9rem;
             font-weight: 700;
-            color: #ff3333;
+            color: #ff3333; /* Rojo del código original */
             text-transform: uppercase;
             letter-spacing: 0.05rem;
             padding: 0.25rem 0.5rem;
-            background: rgba(255, 51, 51, 0.1);
+            background: rgba(255, 51, 51, 0.1); /* Fondo rojo del código original */
             border-radius: 0.15rem;
             animation: blink 1s infinite;
             box-shadow: 0 0 10px rgba(255, 51, 51, 0.5);
@@ -99,7 +99,7 @@
         .song-title {
             font-size: 1rem;
             font-weight: 600;
-            color: #ffffff;
+            color: #ffffff; /* Texto blanco del código original */
             display: inline-block;
             animation: marquee 15s linear infinite;
             padding-left: 100%;
@@ -112,12 +112,12 @@
         }
         #sonic_listeners {
             font-size: 0.9rem;
-            color: #9ca3af;
+            color: #9ca3af; /* Gris del código original */
             font-weight: 500;
         }
         .song-artist {
             font: 400 0.9rem 'Orbitron', sans-serif;
-            color: #9ca3af;
+            color: #9ca3af; /* Gris del código original */
             text-align: center;
             white-space: nowrap;
             overflow: hidden;
@@ -133,8 +133,8 @@
             padding: 0.5rem 0;
         }
         .control-btn {
-            background: rgba(59, 130, 246, 0.05);
-            color: #e5e5e5;
+            background: rgba(59, 130, 246, 0.05); /* Azul claro del código original */
+            color: #e5e5e5; /* Texto claro del código original */
             padding: 0.5rem;
             font-size: 1rem;
             border-radius: 0.2rem;
@@ -143,13 +143,13 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            border: 1px solid rgba(59, 130, 246, 0.4);
+            border: 1px solid rgba(59, 130, 246, 0.4); /* Borde del código original */
             cursor: pointer;
             transition: all 0.3s ease;
-            box-shadow: 0 0 8px rgba(59, 130, 246, 0.2);
+            box-shadow: 0 0 8px rgba(59, 130, 246, 0.2); /* Sombra del código original */
         }
         .control-btn:hover {
-            background: #3b82f6;
+            background: rgba(59, 130, 246, 0.2); /* Ajustado para consistencia */
             color: #ffffff;
             transform: scale(1.1);
             box-shadow: 0 0 15px rgba(59, 130, 246, 0.6);
@@ -166,7 +166,7 @@
         .mini-volume-control {
             width: 100%;
             height: 0.3rem;
-            background: rgba(59, 130, 246, 0.15);
+            background: rgba(59, 130, 246, 0.15); /* Azul claro del código original */
             border-radius: 2rem;
             -webkit-appearance: none;
             outline: none;
@@ -180,7 +180,7 @@
             -webkit-appearance: none;
             width: 0.9rem;
             height: 0.9rem;
-            background: #ff3333;
+            background: #ff3333; /* Rojo del código original */
             border-radius: 50%;
             cursor: pointer;
             box-shadow: 0 0 8px rgba(255, 51, 51, 0.7);
@@ -192,23 +192,23 @@
         .recent-songs-title {
             font-size: 1.1rem;
             font-weight: 600;
-            color: #ffffff;
+            color: #ffffff; /* Texto blanco del código original */
             margin-bottom: 0.5rem;
             text-align: left;
-            border-bottom: 1px solid rgba(59, 130, 246, 0.2);
+            border-bottom: 1px solid rgba(59, 130, 246, 0.2); /* Borde del código original */
             padding-bottom: 0.25rem;
             width: 90%;
         }
         .history {
             width: 90%;
-            max-height: 80px;
+            max-height: 120px; /* Aumentado para mostrar más canciones */
             overflow-y: auto;
             font-size: 0.8rem;
             color: #b0b0b0;
-            background: rgba(255, 255, 255, 0.06);
+            background: rgba(255, 255, 255, 0.06); /* Fondo del código original */
             padding: 0.5rem;
             border-radius: 0.5rem;
-            border: 1px solid rgba(59, 130, 246, 0.35);
+            border: 1px solid rgba(59, 130, 246, 0.35); /* Borde del código original */
             font-family: 'Roboto', sans-serif;
             box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.3);
         }
@@ -217,14 +217,14 @@
             align-items: center;
             gap: 0.75rem;
             padding: 0.5rem 0;
-            border-bottom: 1px solid rgba(59, 130, 246, 0.1);
+            border-bottom: 1px solid rgba(59, 130, 246, 0.1); /* Borde del código original */
             transition: background 0.2s ease, transform 0.2s ease;
         }
         .song-card:last-child {
             border-bottom: none;
         }
         .song-card:hover {
-            background: rgba(59, 130, 246, 0.05);
+            background: rgba(59, 130, 246, 0.05); /* Efecto hover del código original */
             transform: translateX(0.3rem);
         }
         .song-card-cover {
@@ -232,8 +232,8 @@
             height: 2rem;
             border-radius: 0.2rem;
             object-fit: cover;
-            border: 1px solid rgba(59, 130, 246, 0.3);
-            background: #27272a;
+            border: 1px solid rgba(59, 130, 246, 0.3); /* Borde del código original */
+            background: #27272a; /* Fondo del código original */
         }
         .song-card-content {
             flex: 1;
@@ -241,7 +241,7 @@
         }
         .song-card-title {
             font-size: 0.85rem;
-            color: #e5e5e5;
+            color: #e5e5e5; /* Texto claro del código original */
             font-weight: 500;
             text-overflow: ellipsis;
             overflow: hidden;
@@ -418,13 +418,11 @@
                     }
                     if (player.historyList && data.history) {
                         player.historyList.innerHTML = '';
-                        var lastFive = data.history
-                            .filter(track => !track.includes('Advert:'))
-                            .slice(0, 5);
-                        if (lastFive.length === 0) {
+                        var allSongs = data.history.filter(track => !track.includes('Advert:'));
+                        if (allSongs.length === 0) {
                             player.historyList.innerHTML = '<p>No hay canciones recientes.</p>';
                         } else {
-                            lastFive.forEach(function(track) {
+                            allSongs.forEach(function(track) {
                                 var songCard = document.createElement('div');
                                 songCard.className = 'song-card';
                                 var coverSrc = data.art || 'https://via.placeholder.com/40/27272a/ffffff?text=';
