@@ -210,7 +210,7 @@
             </button>
         </div>
         <div class="history" id="historyList"></div>
-        <audio id="radioPlayer" preload="auto">
+        <audio id="radioPlayer" preload="auto" autoplay>
             <source src="https://jm8n.net:8024/stream" type="audio/mpeg"/>
         </audio>
     </div>
@@ -231,7 +231,7 @@
             listeners: document.getElementById('sonic_listeners'),
             historyList: document.getElementById('historyList'),
             state: {
-                isPlaying: localStorage.getItem('isPlaying') === 'true',
+                isPlaying: true, // Inicia como reproduciendo
                 isMuted: false, // Forzar desmuteado por defecto
                 volume: localStorage.getItem('volume') || 0.5,
                 retryCount: 0
@@ -382,14 +382,11 @@
             });
         }
 
-        // Iniciar reproducción si no está reproduciendo
-        if (!player.state.isPlaying) {
-            playRadio();
-        } else {
-            player.audio.src = 'https://jm8n.net:8024/stream';
+        // Asegurar autoplay y estado inicial
+        player.audio.addEventListener('loadedmetadata', () => {
             player.audio.play().catch(() => playRadio());
-            updatePlayButton();
-        }
+        });
+        updatePlayButton();
         updateMuteButton();
         updateRadioInfo();
         setInterval(updateRadioInfo, 10000);
