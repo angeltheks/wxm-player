@@ -10,7 +10,7 @@
             margin: 0;
             padding: 0;
             overflow: hidden;
-            background: radial-gradient(circle at center, #0a0a0a, #1a1a1a);
+            background: #0a0a0a;
             font-family: 'Orbitron', sans-serif;
             display: flex;
             justify-content: center;
@@ -20,37 +20,45 @@
         }
         .bottom-player {
             position: fixed;
-            bottom: 0;
-            left: 0;
-            width: calc(100% - 2rem);
-            max-width: 1280px;
-            margin: 0 1rem 1rem 1rem;
-            background: linear-gradient(135deg, rgba(0, 0, 0, 0.7), rgba(59, 130, 246, 0.1));
-            padding: 0.8rem 1.2rem;
+            bottom: 1rem;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 300px;
+            height: 300px;
+            background: linear-gradient(135deg, rgba(15, 15, 18, 0.7), rgba(59, 130, 246, 0.1));
+            padding: 1rem;
             z-index: 1000;
             display: flex;
+            flex-direction: column;
             align-items: center;
-            gap: 1.2rem;
-            height: 5rem;
+            gap: 0.8rem;
             border: 2px solid rgba(59, 130, 246, 0.4);
             border-radius: 0.5rem;
-            box-shadow: 0 -5px 25px rgba(59, 130, 246, 0.3), inset 0 0 15px rgba(255, 51, 51, 0.2);
+            box-shadow: 0 0 25px rgba(59, 130, 246, 0.3), inset 0 0 15px rgba(255, 51, 51, 0.2);
             backdrop-filter: blur(10px); /* Transparencia negra moderna */
             transition: transform 0.4s ease, box-shadow 0.4s ease;
             transform-style: preserve-3d;
             animation: float 4s ease-in-out infinite;
+            background-image: url('https://media.giphy.com/media/l0HlRnAWXxn0MhKLK/giphy.gif'); /* GIF de ejemplo */
+            background-size: cover;
+            background-position: center;
+            background-blend-mode: overlay;
         }
         @keyframes float {
-            0%, 100% { transform: translateY(0) rotateX(5deg); }
-            50% { transform: translateY(-8px) rotateX(-5deg) scale(1.02); }
+            0%, 100% { transform: translateX(-50%) translateY(0) rotateX(5deg); }
+            50% { transform: translateX(-50%) translateY(-8px) rotateX(-5deg) scale(1.02); }
         }
         .bottom-player:hover {
-            transform: translateY(-5px) scale(1.03);
-            box-shadow: 0 -8px 30px rgba(59, 130, 246, 0.5), inset 0 0 20px rgba(255, 51, 51, 0.3);
+            transform: translateX(-50%) translateY(-10px) scale(1.03);
+            box-shadow: 0 0 30px rgba(59, 130, 246, 0.5), inset 0 0 20px rgba(255, 51, 51, 0.3);
+        }
+        .player-logo {
+            width: 100%;
+            text-align: center;
         }
         .player-logo img {
-            width: 3rem;
-            height: 3rem;
+            width: 60px;
+            height: 60px;
             border-radius: 0.3rem;
             object-fit: cover;
             border: 2px solid rgba(59, 130, 246, 0.6);
@@ -64,12 +72,14 @@
         .player-info {
             flex: 1;
             min-width: 0;
+            width: 100%;
             position: relative;
             padding: 0.4rem 0;
             backdrop-filter: blur(5px);
             background: rgba(0, 0, 0, 0.5);
             border-radius: 0.3rem;
-            padding-left: 0.5rem;
+            padding: 0 0.5rem;
+            text-align: center;
         }
         .song-title {
             font: 700 1.1rem 'Roboto', sans-serif;
@@ -90,15 +100,13 @@
             text-shadow: 0 0 4px rgba(156, 163, 175, 0.5);
         }
         .progress-bar {
-            position: absolute;
-            bottom: 0;
-            left: 0;
             width: 100%;
             height: 0.3rem;
             background: rgba(59, 130, 246, 0.2);
             border-radius: 2.5rem;
             overflow: hidden;
             box-shadow: inset 0 0 10px rgba(59, 130, 246, 0.3);
+            margin: 0.5rem 0;
         }
         .progress-fill {
             width: 100%;
@@ -114,8 +122,10 @@
         .player-controls {
             display: flex;
             align-items: center;
+            justify-content: center;
             gap: 0.8rem;
-            padding-right: 0.6rem;
+            padding: 0.5rem 0;
+            width: 100%;
         }
         .control-btn {
             background: rgba(0, 0, 0, 0.4);
@@ -181,7 +191,7 @@
 <body>
     <div class="bottom-player">
         <div class="player-logo">
-            <img alt="WXM ONE RADIO Logo" id="player-logo-img" src="https://placehold.co/40"/>
+            <img alt="WXM ONE RADIO Logo" id="player-logo-img" src="https://media.giphy.com/media/l0HlRnAWXxn0MhKLK/giphy.gif"/>
         </div>
         <div class="player-info">
             <div class="song-title" id="sonic_title">Cargando...</div>
@@ -330,7 +340,7 @@
                 .then(function(data) {
                     if (player.songTitle) player.songTitle.textContent = data.title || 'Sin título';
                     if (player.songArtist) player.songArtist.textContent = data.djusername || 'WXM Radio';
-                    if (player.logoImg) player.logoImg.src = data.art || 'https://placehold.co/40';
+                    if (player.logoImg) player.logoImg.src = data.art || 'https://media.giphy.com/media/l0HlRnAWXxn0MhKLK/giphy.gif'; // GIF por defecto
                 })
                 .catch(function(error) {
                     console.error('Error al cargar la API:', error);
