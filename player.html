@@ -205,11 +205,10 @@
             listeners: document.getElementById('sonic_listeners'),
             historyList: document.getElementById('historyList'),
             state: {
-                isPlaying: localStorage.getItem('isPlaying') === 'true',
+                isPlaying: localStorage.getItem('isPlaying'') === 'true',
                 isMuted: localStorage.getItem('isMuted') === 'true',
                 volume: localStorage.getItem('volume') || 0.5,
-                retryCount: 0,
-                history: []
+                retryCount: 0
             }
         };
 
@@ -269,34 +268,30 @@
                     if (player.coverArt) player.coverArt.src = data.art || 'https://placehold.co/140';
                     if (player.listeners) player.listeners.textContent = `${data.listeners || 0} oyentes`;
 
-                    // Actualizar historial (filtrando anuncios)
-                    if (data.title && !data.title.includes('Advert:')) {
-                        player.state.history.unshift(data.title);
-                        if (player.state.history.length > 10) player.state.history.pop();
-                        updateHistory();
+                    // Actualizar historial desde data.history
+                    if (player.historyList && data.history) {
+                        player.historyList.innerHTML = '';
+                        var lastTen = data.history
+                            .filter(track => !track.includes('Advert:')) // Filtrar anuncios
+                            .slice(0, 10); // Tomar hasta 10 canciones
+                        if (lastTen.length === 0) {
+                            player.historyList.innerHTML = '<p>No hay canciones recientes.</p>';
+                        } else {
+                            lastTen.forEach(track => {
+                                const item = document.createElement('div');
+                                item.className = 'history-item';
+                                item.textContent = track || 'Canción desconocida';
+                                player.historyList.appendChild(item);
+                            });
+                        }
                     }
                 })
                 .catch(error => {
                     console.error('Error al cargar la API:', error);
                     if (player.songTitle) player.songTitle.textContent = 'Sin datos';
                     if (player.listeners) player.listeners.textContent = '0 oyentes';
+                    if (player.historyList) player.historyList.innerHTML = '<p>Error al cargar historial.</p>';
                 });
-        }
-
-        function updateHistory() {
-            if (player.historyList) {
-                player.historyList.innerHTML = '';
-                if (player.state.history.length === 0) {
-                    player.historyList.innerHTML = '<p>No hay canciones recientes.</p>';
-                } else {
-                    player.state.history.forEach(song => {
-                        const item = document.createElement('div');
-                        item.className = 'history-item';
-                        item.textContent = song;
-                        player.historyList.appendChild(item);
-                    });
-                }
-            }
         }
 
         if (player.playButton) {
