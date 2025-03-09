@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>WXM Radio Player</title>
-    <script crossorigin='anonymous' src='https://kit.fontawesome.com/e1419bc5ec.js'/>
+    <script crossorigin='anonymous' src='https://kit.fontawesome.com/e1419bc5ec.js'/> <!-- Reemplaza con tu kit -->
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <style>
         body {
@@ -185,7 +185,7 @@
             songTitle: document.getElementById('sonic_title'),
             songArtist: document.getElementById('sonic_artist'),
             logoImg: document.getElementById('player-logo-img'),
-            state: { isPlaying: localStorage.getItem('isPlaying') === 'true', isMuted: false, retryCount: 0 }
+            state: { isPlaying: false, isMuted: false, retryCount: 0 }
         };
 
         var MAX_RETRIES = 3;
@@ -203,28 +203,25 @@
         }
 
         function playRadio() {
-            if (!player.state.isPlaying) {
-                var timestamp = Date.now();
-                player.audio.src = 'https://jm8n.net:8024/stream?nocache=' + timestamp;
-                player.audio.load();
-                player.audio.play()
-                    .then(function() {
-                        player.state.isPlaying = true;
-                        localStorage.setItem('isPlaying', 'true');
-                        player.state.retryCount = 0;
-                        updatePlayButton();
-                    })
-                    .catch(function(error) {
-                        console.error('Error al reproducir:', error);
-                        if (player.state.retryCount < MAX_RETRIES) {
-                            player.state.retryCount++;
-                            setTimeout(playRadio, 2000);
-                        } else {
-                            if (player.songTitle) player.songTitle.textContent = 'Error de conexión';
-                            if (player.songArtist) player.songArtist.textContent = 'Intenta de nuevo';
-                        }
-                    });
-            }
+            var timestamp = Date.now();
+            player.audio.src = 'https://jm8n.net:8024/stream?nocache=' + timestamp;
+            player.audio.load();
+            player.audio.play()
+                .then(function() {
+                    player.state.isPlaying = true;
+                    player.state.retryCount = 0;
+                    updatePlayButton();
+                })
+                .catch(function(error) {
+                    console.error('Error al reproducir:', error);
+                    if (player.state.retryCount < MAX_RETRIES) {
+                        player.state.retryCount++;
+                        setTimeout(playRadio, 2000);
+                    } else {
+                        if (player.songTitle) player.songTitle.textContent = 'Error de conexión';
+                        if (player.songArtist) player.songArtist.textContent = 'Intenta de nuevo';
+                    }
+                });
         }
 
         if (player.playButton) {
@@ -232,7 +229,6 @@
                 if (player.state.isPlaying) {
                     player.audio.pause();
                     player.state.isPlaying = false;
-                    localStorage.setItem('isPlaying', 'false');
                     if (player.songTitle) player.songTitle.textContent = 'Pausado';
                 } else {
                     playRadio();
@@ -246,7 +242,6 @@
                 player.audio.pause();
                 player.audio.currentTime = 0;
                 player.state.isPlaying = false;
-                localStorage.setItem('isPlaying', 'false');
                 updatePlayButton();
                 if (player.songTitle) player.songTitle.textContent = 'Detenido';
                 if (player.songArtist) player.songArtist.textContent = 'WXM Radio';
@@ -298,11 +293,7 @@
                 });
         }
 
-        if (!player.state.isPlaying) {
-            playRadio();
-        } else {
-            updatePlayButton();
-        }
+        playRadio();
         updateRadioInfo();
         setInterval(updateRadioInfo, 10000);
     })();
