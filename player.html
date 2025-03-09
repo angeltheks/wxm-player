@@ -4,48 +4,41 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>WXM ONE RADIO Player</title>
-    <script src="https://kit.fontawesome.com/e1419bc5ec.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Orbitron&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        body {
-            background: #1a1a1e;
-            margin: 0;
-            padding: 2rem;
-            font-family: 'Roboto', Arial, sans-serif;
-        }
-
-        .radio-player-container {
+        .recent-songs-container {
             background: #0f0f12;
-            border-radius: 0.5rem;
-            padding: 2rem;
-            max-width: 500px;
-            margin: 0 auto;
+            border-radius: 0.3rem;
+            padding: 1.5rem;
+            margin: 2rem auto;
+            max-width: 450px;
             color: #e5e5e5;
             border: 1px solid rgba(59, 130, 246, 0.2);
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6);
             overflow: hidden;
+            font-family: 'Roboto', Arial, sans-serif;
         }
 
-        /* Sección "On Air" */
         .current-track {
             display: flex;
             align-items: center;
-            gap: 1rem;
-            padding: 1rem;
+            gap: 0.75rem;
+            margin-bottom: 1.25rem;
+            padding: 0.5rem;
             background: rgba(255, 255, 255, 0.03);
-            border-radius: 0.3rem;
-            margin-bottom: 1.5rem;
+            border-radius: 0.2rem;
         }
 
         .on-air {
-            font-size: 1.1rem;
+            font-size: 1rem;
             font-weight: 700;
             color: #ff3333;
             text-transform: uppercase;
-            padding: 0.3rem 0.6rem;
+            letter-spacing: 0.05rem;
+            padding: 0.25rem 0.5rem;
             background: rgba(255, 51, 51, 0.1);
-            border-radius: 0.2rem;
+            border-radius: 0.15rem;
             animation: blink 1s infinite;
         }
 
@@ -62,12 +55,13 @@
         }
 
         #current-song-title {
-            font-size: 1.3rem;
+            font-size: 1.2rem;
             font-weight: 600;
             color: #ffffff;
             display: inline-block;
             animation: marquee 15s linear infinite;
             padding-left: 100%;
+            white-space: nowrap;
         }
 
         @keyframes marquee {
@@ -76,26 +70,27 @@
         }
 
         #sonic_listeners {
-            font-size: 0.95rem;
+            font-size: 0.9rem;
             color: #9ca3af;
+            font-weight: 500;
         }
 
-        /* Sección de controles del reproductor */
+        /* Estilos del reproductor */
         .player-section {
             display: flex;
             align-items: center;
-            gap: 1rem;
+            gap: 0.75rem;
             padding: 1rem;
             background: rgba(59, 130, 246, 0.05);
-            border-radius: 0.3rem;
-            margin-bottom: 1.5rem;
+            border-radius: 0.2rem;
+            margin-bottom: 1.25rem;
         }
 
         .player-logo img {
-            width: 3rem;
-            height: 3rem;
+            width: 2.5rem;
+            height: 2.5rem;
             border-radius: 0.2rem;
-            border: 1px solid rgba(59, 130, 246, 0.5);
+            border: 1px solid rgba(59, 130, 246, 0.3);
             object-fit: cover;
         }
 
@@ -105,7 +100,8 @@
         }
 
         .song-title {
-            font: 700 1.1rem 'Roboto', sans-serif;
+            font-size: 1rem;
+            font-weight: 600;
             color: #e5e5e5;
             white-space: nowrap;
             overflow: hidden;
@@ -113,26 +109,26 @@
         }
 
         .song-artist {
-            font: 400 0.9rem 'Orbitron', sans-serif;
+            font-size: 0.85rem;
             color: #9ca3af;
         }
 
         .player-controls {
             display: flex;
             align-items: center;
-            gap: 0.8rem;
+            gap: 0.5rem;
         }
 
         .control-btn {
             background: rgba(59, 130, 246, 0.1);
             color: #e5e5e5;
-            padding: 0.6rem;
-            border-radius: 0.3rem;
+            padding: 0.5rem;
+            border-radius: 0.2rem;
             border: 1px solid rgba(59, 130, 246, 0.4);
             cursor: pointer;
             transition: all 0.3s ease;
-            width: 2.5rem;
-            height: 2.5rem;
+            width: 2rem;
+            height: 2rem;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -144,12 +140,12 @@
         }
 
         .volume-wrapper {
-            width: 5rem;
+            width: 4rem;
         }
 
         .mini-volume-control {
             width: 100%;
-            height: 0.4rem;
+            height: 0.3rem;
             background: rgba(59, 130, 246, 0.15);
             border-radius: 2rem;
             -webkit-appearance: none;
@@ -158,27 +154,30 @@
 
         .mini-volume-control::-webkit-slider-thumb {
             -webkit-appearance: none;
-            width: 1rem;
-            height: 1rem;
+            width: 0.8rem;
+            height: 0.8rem;
             background: #ff3333;
             border-radius: 50%;
         }
 
-        /* Sección "Recently Played" */
+        /* Estilos de "Recently Played" */
         .recent-songs-title {
-            font-size: 1.4rem;
+            font-size: 1.3rem;
+            font-weight: 600;
             color: #ffffff;
             margin-bottom: 1rem;
+            text-align: left;
             border-bottom: 1px solid rgba(59, 130, 246, 0.2);
+            padding-bottom: 0.25rem;
         }
 
         .song-card {
             display: flex;
             align-items: center;
-            gap: 0.8rem;
-            padding: 0.8rem 0;
+            gap: 0.75rem;
+            padding: 0.75rem 0;
             border-bottom: 1px solid rgba(59, 130, 246, 0.1);
-            transition: background 0.2s ease;
+            transition: background 0.2s ease, transform 0.2s ease;
         }
 
         .song-card:last-child {
@@ -187,19 +186,27 @@
 
         .song-card:hover {
             background: rgba(59, 130, 246, 0.05);
+            transform: translateX(0.3rem);
         }
 
         .song-card-cover {
-            width: 2.8rem;
-            height: 2.8rem;
+            width: 2.5rem;
+            height: 2.5rem;
             border-radius: 0.2rem;
             object-fit: cover;
             border: 1px solid rgba(59, 130, 246, 0.3);
+            background: #27272a;
+        }
+
+        .song-card-content {
+            flex: 1;
+            overflow: hidden;
         }
 
         .song-card-title {
-            font-size: 1rem;
+            font-size: 0.95rem;
             color: #e5e5e5;
+            font-weight: 500;
             text-overflow: ellipsis;
             overflow: hidden;
             white-space: nowrap;
@@ -207,7 +214,7 @@
     </style>
 </head>
 <body>
-    <div class="radio-player-container">
+    <div class="recent-songs-container">
         <!-- Sección "On Air" -->
         <div class="current-track">
             <span class="on-air">On Air:</span>
@@ -254,7 +261,7 @@
     </div>
 
     <script>
-        (function() {
+        document.addEventListener('DOMContentLoaded', function() {
             const player = {
                 audio: document.getElementById('radioPlayer'),
                 playButton: document.getElementById('playButton'),
@@ -311,47 +318,57 @@
                 fetch(API_URL)
                     .then(response => response.json())
                     .then(data => {
-                        // Actualizar información en el reproductor
-                        player.songTitle.textContent = data.title || 'Sin título';
-                        player.songArtist.textContent = data.djusername || 'WXM Radio';
-                        player.logoImg.src = data.art || 'https://placehold.co/40';
+                        console.log('Respuesta de la API:', data); // Depuración
 
-                        // Actualizar sección "On Air"
-                        player.currentSongTitle.textContent = data.title || 'Canción desconocida';
-                        player.currentSongTitle.style.animationPlayState = 
-                            player.currentSongTitle.scrollWidth > player.currentSongTitle.parentElement.clientWidth ? 'running' : 'paused';
-                        player.sonicListeners.textContent = `${data.listeners || '0'} oyentes`;
+                        // Actualizar "On Air"
+                        if (player.currentSongTitle) {
+                            player.currentSongTitle.textContent = data.title || 'Canción desconocida';
+                            player.currentSongTitle.style.animationPlayState = 
+                                player.currentSongTitle.scrollWidth > player.currentSongTitle.parentElement.clientWidth ? 'running' : 'paused';
+                        }
+                        if (player.sonicListeners) {
+                            player.sonicListeners.textContent = `${data.listeners || '0'} oyentes`;
+                        }
 
-                        // Actualizar lista de canciones recientes
-                        player.recentSongsList.innerHTML = '';
-                        const lastFive = data.history ? data.history.slice(0, 5) : [];
-                        if (lastFive.length === 0) {
-                            player.recentSongsList.innerHTML = '<p>No hay canciones recientes.</p>';
-                        } else {
-                            lastFive.forEach(track => {
-                                const songCard = document.createElement('div');
-                                songCard.className = 'song-card';
-                                songCard.innerHTML = `
-                                    <img class="song-card-cover" src="${data.art || 'https://via.placeholder.com/40/27272a/ffffff?text='}" 
-                                         alt="Cover" onerror="this.src='https://via.placeholder.com/40/27272a/ffffff?text=';">
-                                    <div class="song-card-content">
-                                        <div class="song-card-title">${track || 'Canción desconocida'}</div>
-                                    </div>
-                                `;
-                                player.recentSongsList.appendChild(songCard);
-                            });
+                        // Actualizar reproductor
+                        if (player.songTitle) player.songTitle.textContent = data.title || 'Sin título';
+                        if (player.songArtist) player.songArtist.textContent = data.djusername || 'WXM Radio';
+                        if (player.logoImg) player.logoImg.src = data.art || 'https://placehold.co/40';
+
+                        // Actualizar "Recently Played"
+                        if (player.recentSongsList) {
+                            player.recentSongsList.innerHTML = '';
+                            const lastFive = data.history ? data.history.slice(0, 5) : [];
+                            if (lastFive.length === 0) {
+                                player.recentSongsList.innerHTML = '<p>No hay canciones recientes.</p>';
+                            } else {
+                                lastFive.forEach(track => {
+                                    const songCard = document.createElement('div');
+                                    songCard.className = 'song-card';
+                                    const coverSrc = data.art || 'https://via.placeholder.com/40/27272a/ffffff?text=';
+                                    songCard.innerHTML = `
+                                        <img class="song-card-cover" src="${coverSrc}" alt="Cover" onerror="this.src='https://via.placeholder.com/40/27272a/ffffff?text=';">
+                                        <div class="song-card-content">
+                                            <div class="song-card-title">${track || 'Canción desconocida'}</div>
+                                        </div>
+                                    `;
+                                    player.recentSongsList.appendChild(songCard);
+                                });
+                            }
                         }
                     })
                     .catch(error => {
-                        console.error('Error al cargar la API:', error);
-                        player.songTitle.textContent = 'Sin datos';
-                        player.currentSongTitle.textContent = 'Error';
-                        player.sonicListeners.textContent = 'Error';
-                        player.recentSongsList.innerHTML = '<p>Error al cargar canciones.</p>';
+                        console.error('Error al cargar la información de la radio:', error);
+                        if (player.currentSongTitle) player.currentSongTitle.textContent = 'Error';
+                        if (player.sonicListeners) player.sonicListeners.textContent = 'Error';
+                        if (player.songTitle) player.songTitle.textContent = 'Sin datos';
+                        if (player.recentSongsList) {
+                            player.recentSongsList.innerHTML = '<p>Error al cargar canciones.</p>';
+                        }
                     });
             }
 
-            // Event Listeners
+            // Event Listeners para el reproductor
             player.playButton.addEventListener('click', () => {
                 if (player.state.isPlaying) {
                     player.audio.pause();
@@ -401,7 +418,7 @@
             playRadio();
             updateRadioInfo();
             setInterval(updateRadioInfo, 10000);
-        })();
+        });
     </script>
 </body>
 </html>
