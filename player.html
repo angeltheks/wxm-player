@@ -232,7 +232,7 @@
             historyList: document.getElementById('historyList'),
             state: {
                 isPlaying: localStorage.getItem('isPlaying') === 'true',
-                isMuted: localStorage.getItem('isMuted') === 'true',
+                isMuted: false, // Forzar desmuteado por defecto
                 volume: localStorage.getItem('volume') || 0.5,
                 retryCount: 0
             }
@@ -242,7 +242,7 @@
 
         // Restaurar estado inicial
         player.audio.volume = player.state.volume;
-        player.audio.muted = player.state.isMuted;
+        player.audio.muted = player.state.isMuted; // Inicia desmuteado
         if (player.volumeControl) player.volumeControl.value = player.state.volume;
 
         function updatePlayButton() {
