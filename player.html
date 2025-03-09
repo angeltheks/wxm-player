@@ -2,153 +2,140 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>WXM Radio Player</title>
+    <title>WXM Ultra Modern Player</title>
     <script src="https://kit.fontawesome.com/e1419bc5ec.js" crossorigin="anonymous"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
     <style>
         body {
             margin: 0;
             padding: 0;
             overflow: hidden;
-            background: transparent;
-        }
-        .bottom-player {
-            width: 100%;
-            background: linear-gradient(135deg, #0f0f12 0%, rgba(59, 130, 246, 0.1) 100%);
-            padding: 0.6rem;
+            background: #0a0a0c;
+            font-family: 'Orbitron', sans-serif;
             display: flex;
+            justify-content: center;
             align-items: center;
-            gap: 0.5rem;
-            height: 4.2rem;
-            border: 1px solid rgba(59, 130, 246, 0.3);
-            border-radius: 0.3rem;
-            box-shadow: 0 -4px 20px rgba(59, 130, 246, 0.2), inset 0 0 10px rgba(255, 51, 51, 0.1);
-            backdrop-filter: blur(8px);
-            justify-content: space-between; /* Distribuye el espacio */
+            height: 100vh;
         }
-        .player-logo img {
-            width: 2.8rem;
-            height: 2.8rem;
-            border-radius: 0.2rem;
-            object-fit: cover;
-            border: 1px solid rgba(59, 130, 246, 0.5);
-            box-shadow: 0 0 12px rgba(59, 130, 246, 0.3);
-            transition: transform 0.3s ease;
-        }
-        .player-logo img:hover { transform: scale(1.05); }
-        .player-info {
-            flex: 1;
-            min-width: 0;
+        .player-container {
+            width: 400px;
+            height: 400px;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            border-radius: 1rem;
+            box-shadow: 0 0 30px rgba(59, 130, 246, 0.5), inset 0 0 15px rgba(255, 51, 51, 0.2);
+            padding: 1rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
             position: relative;
-            padding: 0.3rem 0;
+            overflow: hidden;
+        }
+        .cover-art {
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid #3b82f6;
+            box-shadow: 0 0 20px rgba(59, 130, 246, 0.7);
+            margin-bottom: 1rem;
+            transition: transform 0.5s ease;
+        }
+        .cover-art:hover { transform: rotate(360deg); }
+        .player-info {
+            text-align: center;
+            color: #e5e5e5;
+            margin-bottom: 1rem;
         }
         .song-title {
-            font: 700 1rem 'Roboto', Arial, sans-serif;
-            color: #e5e5e5;
+            font-size: 1.2rem;
+            font-weight: 700;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
-            line-height: 1.2;
-            padding: 0.2rem 0;
-            max-width: 100%;
+            max-width: 300px;
         }
         .song-artist {
-            font: 400 0.85rem 'Roboto', Arial, sans-serif;
+            font-size: 0.9rem;
             color: #9ca3af;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
         }
-        .progress-bar {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 0.25rem;
-            background: rgba(59, 130, 246, 0.1);
-            border-radius: 2rem;
-            overflow: hidden;
-        }
-        .progress-fill {
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, #ff3333, #3b82f6, #ff3333);
-            animation: progressFlow 3s linear infinite;
-        }
-        @keyframes progressFlow {
-            0% { transform: translateX(-100%); }
-            100% { transform: translateX(100%); }
+        .listeners {
+            font-size: 0.8rem;
+            color: #ff3333;
+            margin-top: 0.5rem;
         }
         .player-controls {
             display: flex;
-            align-items: center;
-            gap: 0.3rem; /* Reducido para centrar más */
-            padding-right: 0.5rem; /* Ajustado para no pegar al borde */
+            gap: 0.5rem;
+            margin-bottom: 1rem;
         }
         .control-btn {
-            background: rgba(59, 130, 246, 0.05);
+            background: rgba(59, 130, 246, 0.1);
             color: #e5e5e5;
-            padding: 0.5rem;
-            font-size: 0.9rem; /* Reducido ligeramente */
-            border-radius: 0.2rem;
-            width: 2rem; /* Reducido para menos espacio */
-            height: 2rem;
+            padding: 0.6rem;
+            font-size: 1rem;
+            border-radius: 50%;
+            width: 2.5rem;
+            height: 2.5rem;
             display: flex;
             align-items: center;
             justify-content: center;
-            border: 1px solid rgba(59, 130, 246, 0.4);
+            border: 1px solid rgba(59, 130, 246, 0.5);
             cursor: pointer;
             transition: all 0.3s ease;
-            box-shadow: 0 0 8px rgba(59, 130, 246, 0.2);
         }
         .control-btn:hover {
             background: #3b82f6;
             color: #ffffff;
-            transform: scale(1.1);
-            box-shadow: 0 0 15px rgba(59, 130, 246, 0.6);
+            box-shadow: 0 0 15px rgba(59, 130, 246, 0.8);
         }
         .control-btn:active { transform: scale(0.95); }
         .volume-wrapper {
-            position: relative;
-            width: 4rem; /* Reducido ligeramente */
+            width: 5rem;
             display: flex;
             align-items: center;
         }
         .mini-volume-control {
             width: 100%;
             height: 0.3rem;
-            background: rgba(59, 130, 246, 0.15);
+            background: rgba(59, 130, 246, 0.2);
             border-radius: 2rem;
             -webkit-appearance: none;
             outline: none;
             cursor: pointer;
-            transition: background 0.3s ease;
         }
-        .mini-volume-control:hover { background: rgba(59, 130, 246, 0.4); }
         .mini-volume-control::-webkit-slider-thumb {
             -webkit-appearance: none;
-            width: 0.9rem;
-            height: 0.9rem;
+            width: 1rem;
+            height: 1rem;
             background: #ff3333;
             border-radius: 50%;
-            cursor: pointer;
-            box-shadow: 0 0 8px rgba(255, 51, 51, 0.7);
-            transition: transform 0.2s ease;
+            box-shadow: 0 0 10px rgba(255, 51, 51, 0.7);
         }
-        .mini-volume-control:hover::-webkit-slider-thumb { transform: scale(1.15); }
+        .history {
+            width: 100%;
+            max-height: 100px;
+            overflow-y: auto;
+            font-size: 0.7rem;
+            color: #b0b0b0;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 0.5rem;
+            border-radius: 0.5rem;
+            border: 1px solid rgba(59, 130, 246, 0.3);
+        }
+        .history-item {
+            padding: 0.2rem 0;
+            border-bottom: 1px solid rgba(59, 130, 246, 0.1);
+        }
+        .history-item:last-child { border-bottom: none; }
     </style>
 </head>
 <body>
-    <div class="bottom-player">
-        <div class="player-logo">
-            <img alt="WXM ONE RADIO Logo" id="player-logo-img" src="https://placehold.co/40"/>
-        </div>
+    <div class="player-container">
+        <img class="cover-art" id="coverArt" src="https://placehold.co/180" alt="Cover Art"/>
         <div class="player-info">
-            <div class="song-title" id="sonic_title">Cargando...</div>
-            <div class="song-artist" id="sonic_artist">WXM Radio</div>
-            <div class="progress-bar">
-                <div class="progress-fill"></div>
-            </div>
+            <div class="song-title" id="songTitle">Cargando...</div>
+            <div class="song-artist" id="songArtist">WXM Radio</div>
+            <div class="listeners" id="listeners">Oyentes: 0</div>
         </div>
         <div class="player-controls">
             <button class="control-btn" id="playButton" title="Play/Pause">
@@ -161,15 +148,16 @@
                 <i class="fas fa-volume-up" id="muteIcon"></i>
             </button>
             <div class="volume-wrapper">
-                <input class="mini-volume-control" id="volumeControl" max="1" min="0" step="0.01" title="Volumen" type="range" value="0.5"/>
+                <input class="mini-volume-control" id="volumeControl" max="1" min="0" step="0.01" type="range" value="0.5"/>
             </div>
             <button class="control-btn" id="shareButton" title="Compartir">
                 <i class="fas fa-share-alt"></i>
             </button>
-            <audio id="radioPlayer" preload="auto">
-                <source src="https://jm8n.net:8024/stream" type="audio/mpeg"/>
-            </audio>
         </div>
+        <div class="history" id="historyList"></div>
+        <audio id="radioPlayer" preload="auto">
+            <source src="https://jm8n.net:8024/stream" type="audio/mpeg"/>
+        </audio>
     </div>
 
     <script>
@@ -183,19 +171,23 @@
             volumeControl: document.getElementById('volumeControl'),
             playIcon: document.getElementById('playIcon'),
             muteIcon: document.getElementById('muteIcon'),
-            songTitle: document.getElementById('sonic_title'),
-            songArtist: document.getElementById('sonic_artist'),
-            logoImg: document.getElementById('player-logo-img'),
+            songTitle: document.getElementById('songTitle'),
+            songArtist: document.getElementById('songArtist'),
+            coverArt: document.getElementById('coverArt'),
+            listeners: document.getElementById('listeners'),
+            historyList: document.getElementById('historyList'),
             state: {
                 isPlaying: localStorage.getItem('isPlaying') === 'true',
                 isMuted: localStorage.getItem('isMuted') === 'true',
                 volume: localStorage.getItem('volume') || 0.5,
-                retryCount: 0
+                retryCount: 0,
+                history: []
             }
         };
 
         var MAX_RETRIES = 3;
 
+        // Restaurar estado inicial
         player.audio.volume = player.state.volume;
         player.audio.muted = player.state.isMuted;
         if (player.volumeControl) player.volumeControl.value = player.state.volume;
@@ -234,6 +226,41 @@
                             if (player.songArtist) player.songArtist.textContent = 'Intenta de nuevo';
                         }
                     });
+            }
+        }
+
+        function updateRadioInfo() {
+            fetch('https://jm8n.net/cp/get_info.php?p=8024')
+                .then(response => response.json())
+                .then(data => {
+                    // Actualizar título, artista y cover
+                    if (player.songTitle) player.songTitle.textContent = data.title || 'Sin título';
+                    if (player.songArtist) player.songArtist.textContent = data.djusername || 'WXM Radio';
+                    if (player.coverArt) player.coverArt.src = data.art || 'https://placehold.co/180';
+                    if (player.listeners) player.listeners.textContent = `Oyentes: ${data.listeners || 0}`;
+
+                    // Actualizar historial (filtrando anuncios)
+                    if (data.title && !data.title.includes('Advert:')) {
+                        player.state.history.unshift(data.title);
+                        if (player.state.history.length > 10) player.state.history.pop();
+                        updateHistory();
+                    }
+                })
+                .catch(error => {
+                    console.error('Error al cargar la API:', error);
+                    if (player.songTitle) player.songTitle.textContent = 'Sin datos';
+                });
+        }
+
+        function updateHistory() {
+            if (player.historyList) {
+                player.historyList.innerHTML = '';
+                player.state.history.forEach(song => {
+                    const item = document.createElement('div');
+                    item.className = 'history-item';
+                    item.textContent = song;
+                    player.historyList.appendChild(item);
+                });
             }
         }
 
@@ -291,34 +318,18 @@
                     url: 'http://www.wxmradio.com/'
                 };
                 if (navigator.share) {
-                    navigator.share(shareData).catch(function(err) { console.error('Error al compartir:', err); });
+                    navigator.share(shareData).catch(err => console.error('Error al compartir:', err));
                 } else {
                     prompt('Comparte este enlace:', 'http://www.wxmradio.com/');
                 }
             });
         }
 
-        function updateRadioInfo() {
-            fetch('https://jm8n.net/cp/get_info.php?p=8024')
-                .then(function(response) { return response.json(); })
-                .then(function(data) {
-                    if (player.songTitle) player.songTitle.textContent = data.title || 'Sin título';
-                    if (player.songArtist) player.songArtist.textContent = data.djusername || 'WXM Radio';
-                    if (player.logoImg) player.logoImg.src = data.art || 'https://placehold.co/40';
-                })
-                .catch(function(error) {
-                    console.error('Error al cargar la API:', error);
-                    if (player.songTitle) player.songTitle.textContent = 'Sin datos';
-                });
-        }
-
         if (!player.state.isPlaying) {
             playRadio();
         } else {
             player.audio.src = 'https://jm8n.net:8024/stream';
-            player.audio.play().catch(function() {
-                playRadio();
-            });
+            player.audio.play().catch(() => playRadio());
             updatePlayButton();
         }
         updateMuteButton();
